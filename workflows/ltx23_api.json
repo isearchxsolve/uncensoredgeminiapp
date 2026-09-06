@@ -1,0 +1,140 @@
+{
+  "1": {
+    "class_type": "UnetLoaderGGUF",
+    "inputs": {
+      "unet_name": "ltx-2.3-22b-dev-Q4_K_M.gguf"
+    }
+  },
+  "3": {
+    "class_type": "LTXVGemmaCLIPModelLoader",
+    "inputs": {
+      "gemma_path": "gemma-3-12b-it-qat-UD-Q4_K_XL.gguf",
+      "ltxv_path": "ltx-2.3-22b-dev-Q4_K_M.gguf",
+      "max_length": 1024
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "a cinematic establishing shot, natural light, film grain",
+      "clip": [
+        "3",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "POSITIVE_PROMPT"
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, distorted, low quality, watermark, text",
+      "clip": [
+        "3",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "NEGATIVE_PROMPT"
+    }
+  },
+  "6": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "ltx-2.3-22b-dev_video_vae.safetensors"
+    }
+  },
+  "7": {
+    "class_type": "EmptyLTXVLatentVideo",
+    "inputs": {
+      "width": 768,
+      "height": 448,
+      "length": 121,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "LENGTH"
+    }
+  },
+  "8": {
+    "class_type": "LTXVConditioning",
+    "inputs": {
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "frame_rate": 24
+    }
+  },
+  "2": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "lora_name": "ltx-2.3-22b-distilled-lora-384.safetensors",
+      "strength_model": 1.0
+    }
+  },
+  "9": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "positive": [
+        "8",
+        0
+      ],
+      "negative": [
+        "8",
+        1
+      ],
+      "latent_image": [
+        "7",
+        0
+      ],
+      "seed": 0,
+      "steps": 8,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "SEED"
+    }
+  },
+  "10": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "9",
+        0
+      ],
+      "vae": [
+        "6",
+        0
+      ]
+    }
+  },
+  "11": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "images": [
+        "10",
+        0
+      ],
+      "frame_rate": 24,
+      "format": "video/h264-mp4",
+      "filename_prefix": "ltx23"
+    }
+  }
+}

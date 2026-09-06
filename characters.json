@@ -1,0 +1,18 @@
+{
+  "_comment": "DESIGN BIBLE for one film's leads (2-3 per film). Per-character flow: DESIGN (lock a canonical reference still) -> TRAIN (a LoRA on that design) -> RENDER (shots.json loads the LoRA). Manage this file with design_stage.py; run 'sync-shots' to push the name->LoRA map into shots.json. Reusable across films: copy a proven character entry into the next film's bible and reuse its trained LoRA (no retraining).",
+  "image_model": "sd_xl_base_1.0.safetensors",
+  "ref_width": 832,
+  "ref_height": 1216,
+  "characters": {
+    "hero": {
+      "display_name": "Hero",
+      "tier": "lead",
+      "design_prompt": "photorealistic cinematic character reference portrait, a person with a distinctive memorable face, neutral confident expression, soft even studio key light, plain neutral grey background, sharp focus, shallow depth of field, 50mm lens, high detail skin texture, head and shoulders",
+      "negative": "blurry, distorted, low quality, watermark, text, extra limbs, deformed, cartoon",
+      "reference_image": "characters/hero_ref.png",
+      "lora": "hero_v1.safetensors",
+      "lora_strength": 0.85,
+      "seed": 0
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "_comment": "Retuned for free no-card GPUs (Lightning L4 / any provider). 768x448 (both dims divisible by 32, LTX-safe), 24fps. PER-CHARACTER LoRA: put trained LoRAs in ComfyUI/models/loras and map them in 'characters'. AUDIO: 'voices' maps a character to a reference voice wav for cloning; per-shot 'dialogue'+'voice' are consumed by voice_lipsync.py AFTER rendering (render_film ignores them). 'music' is an optional bg track (or null). Flow: render_film.py -> voice_lipsync.py -> film with sound.",
+  "fps": 24,
+  "width": 768,
+  "height": 448,
+  "characters": {
+    "hero": "hero_v1.safetensors"
+  },
+  "voices": {
+    "hero": "voices/hero_ref.wav"
+  },
+  "music": null,
+  "music_volume": 0.18,
+  "shots": [
+    {"id": "01", "prompt": "wide establishing shot of a neon city at dawn, slow camera drift, cinematic, volumetric light, film grain", "negative": "blurry, distorted, low quality, watermark, text", "seconds": 3, "quality": "balanced"},
+    {"id": "02", "prompt": "extreme close-up of the hero's eyes slowly opening, shallow depth of field, catchlight, cinematic", "negative": "blurry, distorted, low quality, watermark, text, extra eyes", "seconds": 3, "quality": "balanced", "character": "hero", "char_strength": 0.85, "dialogue": "Another morning in this city that never sleeps.", "voice": "hero"},
+    {"id": "03", "prompt": "the hero walks into frame as rain starts to fall, moody backlight, reflections on wet pavement", "negative": "blurry, distorted, low quality, watermark, text", "seconds": 3, "quality": "balanced", "character": "hero", "char_strength": 0.85, "dialogue": "But today, everything changes.", "voice": "hero"}
+  ]
+}
